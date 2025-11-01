@@ -71,7 +71,7 @@ body {
 }
 
 .topbar {
-    background: linear-gradient(50deg, var(--accent), #666);
+    background: linear-gradient(50deg, var(--accent), #00bcd4);
     color: #fff;
     padding: 8px 0
 }
