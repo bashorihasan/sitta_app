@@ -40,10 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('password').value.trim();
             const user = dataPengguna.find(u => u.email === email && u.password === password);
             if (!user) {
-                alert('email/password yang anda masukkan salah');
+                showAlert('Kesalahan login', 'Email atau password yang Anda masukkan salah.');
                 return;
             }
-            // Simulasikan login sukses: arahkan ke dashboard
+            // Simulasikan login sukses: set flag dan arahkan ke dashboard
+            try { localStorage.setItem('sitta_logged', '1'); localStorage.setItem('sitta_user', email); } catch (err) {}
             window.location.href = 'dashboard.html';
         });
 
@@ -68,18 +69,90 @@ document.addEventListener('DOMContentLoaded', function () {
         }));
     }
 
+    // --- Custom alert dialog (centered) ---
+    function showAlert(title, message) {
+        // create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'custom-alert-overlay';
+        overlay.innerHTML = `<div class="custom-alert" role="dialog" aria-modal="true">
+            <h3>${escapeHtml(title || 'Pesan')}</h3>
+            <p>${escapeHtml(message || '')}</p>
+            <div style="text-align:center"><button class="btn primary" data-ok>OK</button></div>
+        </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector('[data-ok]').addEventListener('click', function () {
+            overlay.remove();
+        });
+    }
+
+    function escapeHtml(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Determine login state
+    function isLoggedIn() {
+        try { return localStorage.getItem('sitta_logged') === '1'; } catch (e) { return false; }
+    }
+
+    // Disable tab clicks and show login prompt if not logged in
+    function applyTabAccessControl() {
+        const topnav = document.getElementById('topnav');
+        if (!topnav) return;
+        const links = Array.from(topnav.querySelectorAll('a'));
+        const logged = isLoggedIn();
+        links.forEach(a => {
+            // Skip Logout link from being disabled when logged in
+            if (a.id === 'btnLogout') {
+                a.style.display = logged ? '' : 'none';
+                return;
+            }
+            if (!logged) {
+                a.classList.add('disabled');
+                // attach a handler to prompt login
+                a.addEventListener('click', preventAndPrompt);
+            } else {
+                a.classList.remove('disabled');
+                // remove our handler if present
+                a.removeEventListener('click', preventAndPrompt);
+            }
+        });
+    }
+
+    function preventAndPrompt(e) {
+        e.preventDefault();
+        showAlert('Akses Terbatas', 'Silakan login terlebih dahulu untuk mengakses menu ini.');
+    }
+
+    // Run tab access control on load
+    applyTabAccessControl();
+
     // Dashboard / header greeting (separate text and time)
+    function getLoggedUser() {
+        try {
+            const email = localStorage.getItem('sitta_user');
+            if (!email) return null;
+            if (typeof dataPengguna !== 'undefined' && Array.isArray(dataPengguna)) {
+                return dataPengguna.find(u => u.email === email) || null;
+            }
+            return null;
+        } catch (e) { return null; }
+    }
+
     function updateGreeting() {
         const dashText = document.getElementById('dashboardGreetingText');
         const dashTime = document.getElementById('dashboardGreetingTime');
         const now = new Date();
         const h = now.getHours();
-        let greet = 'Selamat';
+        let greet = 'Selamat'
         if (h >= 4 && h < 11) greet = 'Selamat Pagi';
         else if (h >= 11 && h < 15) greet = 'Selamat Siang';
         else if (h >= 15 && h < 18) greet = 'Selamat Sore';
         else greet = 'Selamat Malam';
-        if (dashText) dashText.textContent = greet;
+
+        const user = getLoggedUser();
+        const namePart = user && user.nama ? ' ' + user.nama : '';
+
+        if (dashText) dashText.textContent = greet + namePart;
         if (dashTime) dashTime.textContent = now.toLocaleString();
     }
     updateGreeting();
@@ -116,6 +189,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Logout handler (present on pages that include #btnLogout)
+    const btnLogout = document.getElementById('btnLogout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', function (e) {
+            e.preventDefault();
+            // Optionally clear session state here (none used currently)
+            // Redirect to login page
+            window.location.href = 'index.html';
+        });
+    }
+
     // Stok page: render table
     const tbl = document.getElementById('tblStok');
     if (tbl) {
@@ -149,11 +233,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const edisi = document.getElementById('inEdisi').value.trim() || '1';
             const stokVal = document.getElementById('inStok').value;
             const stok = stokVal === '' ? 0 : parseInt(stokVal, 10);
-            const cover = document.getElementById('inCover').value.trim();
+            // normalize cover input: user types filename (e.g. cover.jpg) and we store as 'assets/img/filename'
+            let coverInput = document.getElementById('inCover').value.trim();
+            // remove any leading ./ or / and strip an accidental 'assets/img/' prefix
+            coverInput = coverInput.replace(/^\/+|^\.\//, '').replace(/^assets\/img\//, '');
+            const cover = coverInput ? ('assets/img/' + coverInput) : '';
 
             // validasi sederhana
             if (!kodeLokasi || !kodeBarang || !namaBarang || !jenisBarang) {
-                alert('Lengkapi semua field wajib (Kode Lokasi, Kode Barang, Nama, Jenis).');
+                showAlert('Data Tidak Lengkap', 'Lengkapi semua field wajib (Kode Lokasi, Kode Barang, Nama, Jenis).');
                 return;
             }
 
@@ -164,6 +252,16 @@ document.addEventListener('DOMContentLoaded', function () {
             // reset form
             formTambah.reset();
             document.getElementById('inKodeLokasi').focus();
+        });
+    }
+
+    // If logout link exists, make it clear login state before redirect
+    const btnLogout2 = document.getElementById('btnLogout');
+    if (btnLogout2) {
+        btnLogout2.addEventListener('click', function (e) {
+            e.preventDefault();
+            try { localStorage.removeItem('sitta_logged'); localStorage.removeItem('sitta_user'); } catch (err) {}
+            window.location.href = 'index.html';
         });
     }
 

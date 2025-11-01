@@ -71,7 +71,7 @@ body {
 }
 
 .topbar {
-    background: linear-gradient(90deg, var(--accent), #00d4e0);
+    background: linear-gradient(50deg, var(--accent), #666);
     color: #fff;
     padding: 8px 0
 }
@@ -197,6 +197,35 @@ input[type="text"],
     background: #eee;
     cursor: pointer
 }
+
+/* Disabled-looking tab (still clickable to trigger login prompt) */
+.tabbar a.disabled {
+    opacity: 0.8;
+    filter: grayscale(20%);
+}
+
+/* Custom alert modal (centered) */
+.custom-alert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 120;
+}
+.custom-alert {
+    background: var(--card);
+    padding: 18px 20px;
+    border-radius: 10px;
+    max-width: 520px;
+    width: 92%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    text-align: center;
+}
+.custom-alert h3 { margin: 0 0 8px 0 }
+.custom-alert p { margin: 0 0 12px 0; color: var(--muted) }
+.custom-alert .btn { min-width: 90px }
 
 .btn.primary {
     background: #00bcd4;
