@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - SITTA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/data.js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+        <header class="topbar">
+            <div class="container">
+                <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+                <nav class="tabbar" id="topnav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="stok.html">Informasi Bahan Ajar</a>
+                    <a href="tracking.html">Tracking Pengiriman</a>
+                    <div class="nav-item dropdown">
+                        <button class="dropbtn">Laporan ▾</button>
+                        <div class="dropdown-content">
+                            <button class="dropdown-item">Monitoring Progress DO Bahan Ajar</button>
+                            <button class="dropdown-item">Rekap Bahan Ajar</button>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link">History Transaksi Bahan Ajar</a>
+                </nav>
+            </div>
+        </header>
+
+    <main class="container">
+        <h1>SITTA - Login</h1>
+        <form id="loginForm" class="card">
+            <label for="email">Email</label>
+            <input type="email" id="email" required placeholder="email@ut.ac.id">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" required placeholder="password">
+
+            <div class="actions">
+                <button type="submit" class="btn primary">Login</button>
+                <button type="button" id="btnLupa" class="btn link">Lupa Password</button>
+                <button type="button" id="btnDaftar" class="btn link">Daftar</button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Modal: Lupa Password -->
+    <div id="modalLupa" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <h3>Lupa Password</h3>
+            <p>Silakan hubungi administrator atau gunakan prosedur reset di kantor UPBJJ.</p>
+            <button class="btn" data-close>Close</button>
+        </div>
+    </div>
+
+    <!-- Modal: Daftar -->
+    <div id="modalDaftar" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <h3>Daftar Pengguna</h3>
+            <p>Fitur pendaftaran belum terhubung ke back-end pada tugas ini.</p>
+            <button class="btn" data-close>Close</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

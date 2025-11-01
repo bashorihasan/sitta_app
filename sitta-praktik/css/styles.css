@@ -1,0 +1,347 @@
+:root {
+    --bg: #f6fbfc;
+    --card: #fff;
+    --muted: #666;
+    --accent: #06b6d4;
+    --danger: #d9534f;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: Segoe UI, Roboto, Arial, sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: #222
+}
+
+.container {
+    max-width: 980px;
+    margin: 28px auto;
+    padding: 0 16px
+}
+
+.card {
+    background: var(--card);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    margin-bottom: 16px
+}
+
+/* Special centered card for dashboard hero */
+.card.center {
+    text-align: center;
+    padding: 36px 24px;
+}
+
+.app-label {
+    font-size: 46px;
+    letter-spacing: 6px;
+    margin: 0 0 8px 0;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.dashboard-greeting {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.dashboard-greeting-text {
+    font-size: 20px;
+    color: #2b2b2b;
+}
+
+.dashboard-greeting-time {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* DO search row (moved from inline styles) */
+.do-search-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    align-items: center;
+}
+
+.topbar {
+    background: linear-gradient(90deg, var(--accent), #00d4e0);
+    color: #fff;
+    padding: 8px 0
+}
+
+.tabbar{display:flex;gap:12px;align-items:center;width:100%;flex-wrap:wrap}
+
+.tabbar a, .tabbar .dropbtn{color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 12px;border-radius:6px;background:transparent;border:0}
+
+.tabbar a:hover, .tabbar .dropbtn:hover{background:rgba(255,255,255,0.08)}
+
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 22px;
+    padding: 6px 8px;
+    border-radius: 6px
+}
+
+.nav-item {
+    position: relative
+}
+
+.dropdown .dropbtn {
+    background: transparent;
+    border: 0;
+    color: rgba(255, 255, 255, 0.95);
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 6px
+}
+
+.dropdown-content {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    background: #fff;
+    color: #222;
+    min-width: 220px;
+    border-radius: 6px;
+    padding: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    display: none;
+    z-index: 60
+}
+
+.dropdown-content .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer
+}
+
+.dropdown-content .dropdown-item:hover {
+    background: #f2f8f9
+}
+
+.dropdown.open .dropdown-content {
+    display: block
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: start
+}
+
+.menu .menu-item {
+    display: block;
+    padding: 8px 6px;
+    border-bottom: 1px dashed #eee;
+    color: var(--accent);
+    text-decoration: none
+}
+
+.menu-item ul {
+    margin: 6px 0 0 16px;
+    padding: 0;
+    color: var(--muted)
+}
+
+h1,
+h2,
+h3,
+h4 {
+    margin: 6px 0
+}
+
+form label {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted)
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+#inputDO {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px
+}
+
+.actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: #eee;
+    cursor: pointer
+}
+
+.btn.primary {
+    background: #00bcd4;
+    color: #fff
+}
+
+.btn.link {
+    background: transparent;
+    color: var(--accent);
+    border: 1px dashed transparent
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    border: 1px solid #eee;
+    text-align: left
+}
+
+.thumb {
+    max-width: 60px;
+    border-radius: 4px
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: auto
+}
+
+.modal-content {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    max-width: 420px;
+    width: 90%
+}
+
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0
+}
+
+.timeline li {
+    padding: 8px;
+    border-left: 3px solid var(--accent);
+    margin: 8px 0;
+    background: #fbfbff;
+    border-radius: 4px
+}
+
+@media (max-width:700px) {
+    .grid {
+        grid-template-columns: 1fr
+    }
+
+    .container {
+        padding: 8px
+    }
+}
+
+@media (max-width:860px) {
+    .nav-toggle {
+        display: inline-flex
+    }
+
+    .tabbar {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        top: 56px;
+        background: linear-gradient(90deg, var(--accent), #00d4e0);
+        flex-direction: column;
+        padding: 12px;
+        display: none;
+        border-radius: 8px;
+        z-index: 90;
+    }
+
+    .tabbar a {
+        padding: 10px;
+        border-radius: 6px
+    }
+
+    .tabbar.open {
+        display: flex
+    }
+
+    .greeting {
+        display: none
+    }
+
+    .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px
+    }
+
+    .form-row .wide {
+        width: 100%
+    }
+}
+
+.form-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center
+}
+
+.form-row input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px
+}
+
+.form-row .wide {
+    min-width: 160px
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px
+}
+
+.card-title {
+    margin: 0
+}

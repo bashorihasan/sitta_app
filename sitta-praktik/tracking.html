@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tracking - SITTA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/data.js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+        <header class="topbar">
+            <div class="container">
+                <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+                <nav class="tabbar" id="topnav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="stok.html">Informasi Bahan Ajar</a>
+                    <a href="tracking.html">Tracking Pengiriman</a>
+                    <div class="nav-item dropdown">
+                        <button class="dropbtn">Laporan ▾</button>
+                        <div class="dropdown-content">
+                            <button class="dropdown-item">Monitoring Progress DO Bahan Ajar</button>
+                            <button class="dropdown-item">Rekap Bahan Ajar</button>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link">History Transaksi Bahan Ajar</a>
+                </nav>
+            </div>
+        </header>
+
+    <main class="container">
+        <h1>Tracking Pengiriman</h1>
+
+        <div class="card">
+            <label for="inputDO">Nomor Delivery Order</label>
+            <div class="do-search-row">
+                <input id="inputDO" placeholder="masukkan nomor DO...">
+                <button id="btnCariDO" class="btn primary">Cari</button>
+            </div>
+        </div>
+
+        <div id="hasilTracking" class="card" aria-live="polite"></div>
+    </main>
+
+</body>
+
+</html>
