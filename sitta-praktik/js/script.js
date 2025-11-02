@@ -1,6 +1,4 @@
-// Central script for SITTA frontend interactions
 document.addEventListener('DOMContentLoaded', function () {
-    // Navbar toggles and dropdowns (persistent across pages)
     const navToggle = document.querySelectorAll('.nav-toggle');
     navToggle.forEach(btn => {
         btn.addEventListener('click', function () {
@@ -11,27 +9,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Dropdown buttons
-    // Only Laporan is a dropdown in the tabbar. Toggle it.
     const laporanDropdown = document.querySelector('.nav-item.dropdown');
     if (laporanDropdown) {
         const btn = laporanDropdown.querySelector('.dropbtn');
         btn && btn.addEventListener('click', function (e) {
             e.stopPropagation();
-            const isOpen = laporanDropdown.classList.toggle('open');
-            // close any other dropdowns (if present)
             document.querySelectorAll('.nav-item.dropdown').forEach(other => {
                 if (other !== laporanDropdown) other.classList.remove('open');
             });
         });
     }
 
-    // close dropdowns when clicking outside
     document.addEventListener('click', function () {
         document.querySelectorAll('.nav-item.dropdown').forEach(d => d.classList.remove('open'));
     });
 
-    // Login page
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
@@ -43,12 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 showAlert('Kesalahan login', 'Email atau password yang Anda masukkan salah.');
                 return;
             }
-            // Simulasikan login sukses: set flag dan arahkan ke dashboard
             try { localStorage.setItem('sitta_logged', '1'); localStorage.setItem('sitta_user', email); } catch (err) { }
             window.location.href = 'dashboard.html';
         });
 
-        // Modals
         const btnLupa = document.getElementById('btnLupa');
         const btnDaftar = document.getElementById('btnDaftar');
         const modalLupa = document.getElementById('modalLupa');
@@ -69,9 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }));
     }
 
-    // --- Custom alert dialog (centered) ---
     function showAlert(title, message) {
-        // create overlay
         const overlay = document.createElement('div');
         overlay.className = 'custom-alert-overlay';
         overlay.innerHTML = `<div class="custom-alert" role="dialog" aria-modal="true">
@@ -89,30 +77,25 @@ document.addEventListener('DOMContentLoaded', function () {
         return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
-    // Determine login state
     function isLoggedIn() {
         try { return localStorage.getItem('sitta_logged') === '1'; } catch (e) { return false; }
     }
 
-    // Disable tab clicks and show login prompt if not logged in
     function applyTabAccessControl() {
         const topnav = document.getElementById('topnav');
         if (!topnav) return;
         const links = Array.from(topnav.querySelectorAll('a'));
         const logged = isLoggedIn();
         links.forEach(a => {
-            // Skip Logout link from being disabled when logged in
             if (a.id === 'btnLogout') {
                 a.style.display = logged ? '' : 'none';
                 return;
             }
             if (!logged) {
                 a.classList.add('disabled');
-                // attach a handler to prompt login
                 a.addEventListener('click', preventAndPrompt);
             } else {
                 a.classList.remove('disabled');
-                // remove our handler if present
                 a.removeEventListener('click', preventAndPrompt);
             }
         });
@@ -123,10 +106,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showAlert('Akses Terbatas', 'Silakan login terlebih dahulu untuk mengakses menu ini.');
     }
 
-    // Run tab access control on load
     applyTabAccessControl();
 
-    // Dashboard / header greeting (separate text and time)
     function getLoggedUser() {
         try {
             const email = localStorage.getItem('sitta_user');
@@ -156,10 +137,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (dashTime) dashTime.textContent = now.toLocaleString();
     }
     updateGreeting();
-    // update time every minute
+
     setInterval(updateGreeting, 60 * 1000);
 
-    // Tracking page
     const btnCariDO = document.getElementById('btnCariDO');
     if (btnCariDO) {
         btnCariDO.addEventListener('click', function () {
@@ -172,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 target.innerHTML = '<p>Data tidak ditemukan untuk nomor DO tersebut.</p>';
                 return;
             }
-            // Build result
             const html = [];
             html.push(`<h3>DO: ${d.nomorDO}</h3>`);
             html.push(`<p><strong>Nama:</strong> ${d.nama}</p>`);
@@ -189,18 +168,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Logout handler (present on pages that include #btnLogout)
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {
         btnLogout.addEventListener('click', function (e) {
             e.preventDefault();
-            // Optionally clear session state here (none used currently)
-            // Redirect to login page
             window.location.href = 'index.html';
         });
     }
 
-    // Stok page: render table
     const tbl = document.getElementById('tblStok');
     if (tbl) {
         const tbody = tbl.querySelector('tbody');
@@ -225,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const formTambah = document.getElementById('formTambah');
         if (btnTambah && formTambah) btnTambah.addEventListener('click', function (e) {
             e.preventDefault();
-            // ambil nilai dari input
             const kodeLokasi = document.getElementById('inKodeLokasi').value.trim();
             const kodeBarang = document.getElementById('inKodeBarang').value.trim();
             const namaBarang = document.getElementById('inNamaBarang').value.trim();
@@ -233,13 +207,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const edisi = document.getElementById('inEdisi').value.trim() || '1';
             const stokVal = document.getElementById('inStok').value;
             const stok = stokVal === '' ? 0 : parseInt(stokVal, 10);
-            // normalize cover input: user types filename (e.g. cover.jpg) and we store as 'assets/img/filename'
+
             let coverInput = document.getElementById('inCover').value.trim();
-            // remove any leading ./ or / and strip an accidental 'assets/img/' prefix
             coverInput = coverInput.replace(/^\/+|^\.\//, '').replace(/^assets\/img\//, '');
             const cover = coverInput ? ('assets/img/' + coverInput) : '';
 
-            // validasi sederhana
             if (!kodeLokasi || !kodeBarang || !namaBarang || !jenisBarang) {
                 showAlert('Data Tidak Lengkap', 'Lengkapi semua field wajib (Kode Lokasi, Kode Barang, Nama, Jenis).');
                 return;
@@ -249,13 +221,11 @@ document.addEventListener('DOMContentLoaded', function () {
             dataBahanAjar.push(newItem);
             renderTable();
 
-            // reset form
             formTambah.reset();
             document.getElementById('inKodeLokasi').focus();
         });
     }
 
-    // If logout link exists, make it clear login state before redirect
     const btnLogout2 = document.getElementById('btnLogout');
     if (btnLogout2) {
         btnLogout2.addEventListener('click', function (e) {
