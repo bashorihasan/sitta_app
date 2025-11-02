@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             // Simulasikan login sukses: set flag dan arahkan ke dashboard
-            try { localStorage.setItem('sitta_logged', '1'); localStorage.setItem('sitta_user', email); } catch (err) {}
+            try { localStorage.setItem('sitta_logged', '1'); localStorage.setItem('sitta_user', email); } catch (err) { }
             window.location.href = 'dashboard.html';
         });
 
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (btnLogout2) {
         btnLogout2.addEventListener('click', function (e) {
             e.preventDefault();
-            try { localStorage.removeItem('sitta_logged'); localStorage.removeItem('sitta_user'); } catch (err) {}
+            try { localStorage.removeItem('sitta_logged'); localStorage.removeItem('sitta_user'); } catch (err) { }
             window.location.href = 'index.html';
         });
     }
