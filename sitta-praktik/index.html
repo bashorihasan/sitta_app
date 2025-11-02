@@ -42,6 +42,7 @@
             <div class="actions">
                 <button type="submit" class="btn primary">Login</button>
                 <button type="button" id="btnLupa" class="btn link">Lupa Password</button>
+                <button type="button" id="btnDaftar" class="btn link">Daftar</button>
             </div>
         </form>
     </main>
@@ -49,10 +50,44 @@
     <div id="modalLupa" class="modal" aria-hidden="true">
         <div class="modal-content">
             <h3>Lupa Password</h3>
-            <p>Silakan hubungi administrator atau gunakan prosedur reset di kantor UPBJJ.</p>
-            <button class="btn" data-close>Close</button>
+            <form id="formLupa">
+                <label for="modLupaEmail">Email</label>
+                <input type="email" id="modLupaEmail" placeholder="email@ut.ac.id" required>
+                <div class="actions" style="margin-top:12px">
+                    <button type="submit" class="btn primary">Kirim</button>
+                    <button type="button" class="btn" data-close>Close</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <div id="modalDaftar" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <h3>Daftar Pengguna</h3>
+            <form id="formDaftar">
+                <label for="inDaftarNama">Nama</label>
+                <input type="text" id="inDaftarNama" placeholder="Nama lengkap">
+
+                <label for="inDaftarEmail">Email</label>
+                <input type="email" id="inDaftarEmail" placeholder="email@ut.ac.id">
+
+                <label for="inDaftarPassword">Password</label>
+                <input type="password" id="inDaftarPassword" placeholder="password">
+
+                <label for="inDaftarRole">Role</label>
+                <input type="text" id="inDaftarRole" placeholder="UPBJJ-UT / Puslaba / Fakultas">
+
+                <label for="inDaftarLokasi">Lokasi</label>
+                <input type="text" id="inDaftarLokasi" placeholder="UPBJJ Jakarta">
+
+                <div class="actions" style="margin-top:12px">
+                    <button type="submit" class="btn primary">Daftar</button>
+                    <button type="button" class="btn" data-close>Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

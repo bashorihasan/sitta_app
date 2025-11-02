@@ -31,7 +31,6 @@ body {
     margin-bottom: 16px
 }
 
-/* Special centered card for dashboard hero */
 .card.center {
     text-align: center;
     padding: 36px 24px;
@@ -62,7 +61,6 @@ body {
     color: var(--muted);
 }
 
-/* DO search row (moved from inline styles) */
 .do-search-row {
     display: flex;
     gap: 8px;
@@ -198,13 +196,11 @@ input[type="text"],
     cursor: pointer
 }
 
-/* Disabled-looking tab (still clickable to trigger login prompt) */
 .tabbar a.disabled {
     opacity: 0.8;
     filter: grayscale(20%);
 }
 
-/* Custom alert modal (centered) */
 .custom-alert-overlay {
     position: fixed;
     inset: 0;

@@ -57,6 +57,49 @@ document.addEventListener('DOMContentLoaded', function () {
             const modal = e.target.closest('.modal');
             if (modal) closeModal(modal);
         }));
+
+        // Form handlers for UI-only modals (no backend integration)
+        const formLupa = document.getElementById('formLupa');
+        const formDaftar = document.getElementById('formDaftar');
+
+        if (formLupa) {
+            formLupa.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = document.getElementById('modLupaEmail').value.trim();
+                if (email) {
+                    showAlert('Permintaan Reset', 'Jika akun dengan email ' + escapeHtml(email) + ' ada, instruksi reset akan dikirim.');
+                } else {
+                    showAlert('Permintaan Reset', 'Jika email terdaftar, instruksi reset akan dikirim.');
+                }
+                closeModal(modalLupa);
+                formLupa.reset();
+            });
+        }
+
+        if (formDaftar) {
+            formDaftar.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const nama = document.getElementById('inDaftarNama').value.trim();
+                const email = document.getElementById('inDaftarEmail').value.trim();
+                const password = document.getElementById('inDaftarPassword').value || '';
+                const role = document.getElementById('inDaftarRole').value.trim();
+                const lokasi = document.getElementById('inDaftarLokasi').value.trim();
+
+                // UI-only: add the user to in-memory dataPengguna for demonstration
+                try {
+                    if (Array.isArray(dataPengguna)) {
+                        const newId = dataPengguna.reduce((m, u) => Math.max(m, u.id || 0), 0) + 1;
+                        dataPengguna.push({ id: newId, nama: nama || '', email: email || '', password: password, role: role || '', lokasi: lokasi || '' });
+                    }
+                } catch (err) {
+                    console.error('Tambah pengguna gagal:', err);
+                }
+
+                showAlert('Pendaftaran', 'Pendaftaran berhasil (UI saja).');
+                closeModal(modalDaftar);
+                formDaftar.reset();
+            });
+        }
     }
 
     function showAlert(title, message) {
